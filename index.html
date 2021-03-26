@@ -1,0 +1,106 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Launch Checklist</title>
+        <link rel = "stylesheet" type = "text/css" href = "styles.css" /> 
+        <script src = "script.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+             let pilotName = document.querySelector("input[name=pilotName]");
+             let coPilotName = document.querySelector("input[name=coPilotName]");
+             let fuelLevel = document.querySelector("input[value=fuelLevel]");
+             let cargoMass = document.querySelector("input[value=cargoMass]");
+             let form = document.querySelector("form");
+              form.addEventListener("submit", function(event){
+                 event.preventDefault();
+
+             function chris() {
+               document.getElementById("pilotStatus").innerText += "Chris";
+               console.log("Chris");
+             let button = document.getElementById("formSubmit");
+               button.addEventListener("click", chris)
+            }
+             function blake() {
+               document.getElementById("copilotStatus").innerText += "Blake";
+               console.log("Blake");
+               let button = document.getElementById("formSubmit");
+               button.addEventListener("click", blake)
+            }
+            if(fuelLevel < 10000){
+                document.getElementById("faultyItems").style.visibility="visible";
+                document.getElementById("fuelStatus").innerText += "NOT ENOUGH FUEL FOR JOURNEY";
+                document.getElementById("launchStatus").innerText += "Shuttle not ready for launch";
+                document.getElementById("launchStatus").style.color="red";
+            }
+            if(cargoMass > 10000){
+                document.getElementById("faultyItems").style.visibility="visible";
+                document.getElementById("fuelStatus").innerText += "TOO MUCH MASS FOR SHUTTLE TAKE OFF";
+                document.getElementById("launchStatus").innerText += "Shuttle not ready for launch";
+                document.getElementById("launchStatus").style.color="red";
+            }
+            if (pilotName === "Chris" && coPilotName === "Blake" && fuelLevel > 10000 && cargoMass <10000 ){
+                document.getElementById("launchStatus").style.color="green"
+                document.getElementById("launchStatus").innerText += "Shuttle is ready for launch!"
+            }
+             if(!isNaN(pilotName) || pilotName.value === ""|| isNaN(coPilotName) || coPilotName.value === "" || fuelLevel.value === "" || cargoMass.value === ""){
+               document.getElementById("pilotStatus").style.color = "red";
+                document.getElementById("pilotStatus").innerText = "Pilot not ready";
+                     }
+                     return alert("Nah Bruh enter valid input");
+                })
+                fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+              response.json().then( function(json) {
+                 const div = document.getElementById("missionTarget");
+                  let jsonPick = Math.floor(Math.random()*json.length);
+                  let dataReturned = json[jsonPick]
+                 // let ind = Math.floor(Math.random()*the length of json);
+                 // let data = json[ind];
+                 div.innerHTML = `
+                    <ol>
+                        <li>Name: ${dataReturned.name}</li>
+                        <li>Diameter: ${dataReturned.diameter}</li>
+                        <li>Star: ${dataReturned.star}</li>
+                        <li>Distance from Earth: ${dataReturned.distance}</li>
+                        <li>Number of Moons: ${dataReturned.moons}</li>
+                    </ol>
+                    <img src="${"https://www.nasa.gov/centers/langley/images/content/698148main_Brains_904_2.jpg"}">
+                 `;
+              });
+           });
+         });
+            
+        </script>
+    </head>
+    <body>
+        <h1>Launch Checklist Form</h1>
+        <div id="missionTarget"></div> 
+        <div id="launchForm">
+            <form method="POST">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
+                    <label>Pilot Name <input type="text" name="pilotName" id="pilotName" value= ""/></label>
+                </div>
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
+                    <label>Co-pilot Name <input type="text" name="copilotName" value= ""/></label>
+                </div>
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
+                    <label>Fuel Level (L) <input type="text" name= "fuelLevel" value= ""/></label> 
+                </div>
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
+                    <label>Cargo Mass (kg) <input type="text" name="cargoMass" value=""/></label>
+                </div>
+                <button id="formSubmit">Submit</button>
+            </form>
+        </div>
+        <div id="launchStatusCheck">
+            <h2 id="launchStatus">Awaiting Information Before Launch</h2>
+            <div  id="faultyItems">
+                <ol>
+                    <li id="pilotStatus" value="pilotName">Pilot Ready</li>
+                    <li id="copilotStatus" value="pilotName">Co-pilot Ready</li>
+                    <li id="fuelStatus" value="fuelStatus">Fuel level high enough for launch</li>
+                    <li id="cargoStatus" value="cargoMass">Cargo mass low enough for launch</li>
+                </ol>
+            </div>
+        </div>    
+    </body>
+</html>
